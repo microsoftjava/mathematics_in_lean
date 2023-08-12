@@ -96,11 +96,11 @@ example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
 example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
   calc
     (a + b) * (a + b) = a * a + b * a + (a * b + b * b) := by
-      sorry
+      rw [mul_add, add_mul, add_mul]
     _ = a * a + (b * a + a * b) + b * b := by
-      sorry
+      rw [← add_assoc, add_assoc (a * a)]
     _ = a * a + 2 * (a * b) + b * b := by
-      sorry
+      rw [mul_comm b a, ← two_mul]
 
 end
 
@@ -109,10 +109,30 @@ section
 variable (a b c d : ℝ)
 
 example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
-  sorry
+  rw [add_mul]
+  rw [mul_add]
+  rw [mul_add]
+  rw [← add_assoc]
+
+example : (a + b) * (c + d) = a * c + a * d + b * c + b * d :=
+  calc
+    (a + b) * (c + d) = a * (c + d) + b * (c + d) := by
+      rw [add_mul]
+    _ = a * c + a * d + (b * c + b * d) := by
+      rw [mul_add, mul_add]
+    _ = a * c + a * d + b * c + b * d := by
+      rw [← add_assoc]
 
 example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
-  sorry
+  rw [mul_sub]
+  rw [add_mul, add_mul]
+  rw [← add_sub]
+  rw [← sub_sub]
+  rw [mul_comm b a]
+  rw [sub_self]
+  rw [add_sub]
+  rw [add_zero]
+  rw [← pow_two, ← pow_two]
 
 #check pow_two a
 #check mul_sub a b c
